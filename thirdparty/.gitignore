@@ -1,0 +1,4 @@
+source/**/*/
+install/**/*/
+tarball/*
+!tarball/.gitkeep
