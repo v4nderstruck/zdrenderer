@@ -1,12 +1,7 @@
 #  TODO.md
 
-
-### Todo
-
-### In Progress
-
-### Done ✓
-
+- [ ] vk/bootstrap/instance: add extension check
+- [ ] vk/bootstrap: Safety checking  code (null, error returns, logging)
 - [x] vkBootstrap 
     - [x] LONGTERM: Get rid of this shit (C++ does not work well with Zig)
     - [ ] ~~fetch vkBootstrap based on system vulkan headers `VK_HEADER_VERSION_COMPLETE`~~
