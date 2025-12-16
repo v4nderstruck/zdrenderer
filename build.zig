@@ -3,25 +3,6 @@ pub fn build(b: *std.Build) void {
     const target = b.standardTargetOptions(.{});
     const optimize = b.standardOptimizeOption(.{});
 
-    const vkBootstrap = b.addModule("vkBootstrap", .{
-        .root_source_file = null,
-        .target = target,
-        .optimize = optimize,
-        .link_libcpp = true,
-    });
-
-    vkBootstrap.addCSourceFiles(.{
-        .files = &.{
-            "VkBootstrap.cpp",
-        },
-        .flags = &.{
-            "-std=c++17",
-            "-Wall",
-            "-Wextra",
-        },
-        .root = b.path("cpp/vkBootstrap"),
-    });
-
     const exe = b.addExecutable(.{
         .name = "zdrenderer",
         .root_module = b.createModule(
@@ -36,7 +17,6 @@ pub fn build(b: *std.Build) void {
 
     exe.root_module.linkSystemLibrary("SDL3", .{ .preferred_link_mode = .static });
     exe.root_module.linkSystemLibrary("vulkan", .{ .preferred_link_mode = .dynamic });
-    exe.root_module.addImport("vkBootstrap", vkBootstrap);
     exe.root_module.addLibraryPath(b.path("thirdparty/install/lib/"));
     exe.root_module.addIncludePath(b.path("thirdparty/install/include/"));
     b.installArtifact(exe);
