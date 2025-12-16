@@ -16,7 +16,7 @@ pub fn build(b: *std.Build) void {
     });
 
     exe.root_module.linkSystemLibrary("SDL3", .{ .preferred_link_mode = .static });
-    exe.root_module.linkSystemLibrary("vulkan", .{ .preferred_link_mode = .dynamic });
+    exe.root_module.linkSystemLibrary("vulkan", .{ .preferred_link_mode = .static });
     exe.root_module.addLibraryPath(b.path("thirdparty/install/lib/"));
     exe.root_module.addIncludePath(b.path("thirdparty/install/include/"));
     b.installArtifact(exe);
