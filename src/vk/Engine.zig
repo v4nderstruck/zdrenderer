@@ -11,10 +11,11 @@ allocator: std.mem.Allocator = undefined,
 instance: vk.Instance = undefined,
 
 fn init_instance(self: *Self) void {
-    var builder = bootstrapInstance.builder();
+    var builder = bootstrapInstance.builder(self.allocator);
     self.instance = builder
         .setAppName("zdrenderer")
         .activateSDL3Window()
+        .enableDebugExtension()
         .build();
 }
 
