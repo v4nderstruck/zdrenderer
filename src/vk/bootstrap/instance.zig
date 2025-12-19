@@ -3,7 +3,7 @@ const sdl = @import("../clibs.zig").sdl;
 
 const std = @import("std");
 const Self = @This();
-const ExtensionList = std.ArrayList([*c]const u8);
+const ConstCharList = std.ArrayList([*c]const u8);
 
 application_info: vk.ApplicationInfo = .{
     .sType = vk.STRUCTURE_TYPE_APPLICATION_INFO,
@@ -17,11 +17,12 @@ instance_create_info: vk.InstanceCreateInfo = .{
     .sType = vk.STRUCTURE_TYPE_INSTANCE_CREATE_INFO,
     .pApplicationInfo = undefined,
     .enabledExtensionCount = 0,
-    .ppEnabledExtensionNames = undefined,
+    .ppEnabledExtensionNames = null,
     .enabledLayerCount = 0,
+    .ppEnabledLayerNames = null,
 },
-extensions: ExtensionList = undefined,
-enable_debug_extension: bool = false,
+validations: ConstCharList = ConstCharList.empty,
+extensions: ConstCharList = ConstCharList.empty,
 allocator: std.mem.Allocator = undefined,
 
 fn default_debug_logger(
@@ -42,7 +43,7 @@ fn default_debug_logger(
 pub fn builder(alloc: std.mem.Allocator) Self {
     return Self{
         .allocator = alloc,
-        .extensions = ExtensionList.empty,
+        .extensions = ConstCharList.empty,
     };
 }
 
@@ -62,8 +63,8 @@ pub fn activateSDL3Window(self: *Self) *Self {
 }
 
 pub fn enableDebugExtension(self: *Self) *Self {
+    self.validations.append(self.allocator, vk.VAL_LAYER_KHRONOS_VALIDATION) catch @panic("OOM!");
     self.extensions.append(self.allocator, vk.EXT_DEBUG_UTILS_EXTENSION_NAME) catch @panic("OOM!");
-    self.enable_debug_extension = true;
     return self;
 }
 
@@ -71,12 +72,13 @@ pub fn enableDebugExtension(self: *Self) *Self {
 pub fn build(self: *Self) vk.Instance {
     self.instance_create_info.pApplicationInfo = &self.application_info;
     self.instance_create_info.enabledExtensionCount = @intCast(self.extensions.items.len);
-    self.instance_create_info.ppEnabledExtensionNames = @ptrCast(self.extensions.items.ptr);
-
+    self.instance_create_info.ppEnabledExtensionNames = if (self.extensions.items.len > 0) @ptrCast(self.extensions.items.ptr) else null;
+    self.instance_create_info.enabledLayerCount = @intCast(self.validations.items.len);
+    self.instance_create_info.ppEnabledLayerNames = if (self.extensions.items.len > 0) @ptrCast(self.validations.items.ptr) else null;
     var instance: vk.Instance = undefined;
     vk.vk_try(vk.CreateInstance(&self.instance_create_info, null, &instance));
 
-    if (self.enable_debug_extension) {
+    if (self.extensions.items.len > 0) {
         const maybe_create_debug_fn = vk.getVulkanInstanceFnByName(vk.PFN_CreateDebugUtilsMessagerExt, instance, "vkCreateDebugUtilsMessengerEXT");
         if (maybe_create_debug_fn) |create_debug_fn| {
             const create_debug_info = vk.DebugUtilsMessengerCreateInfoEXT{
@@ -86,9 +88,9 @@ pub fn build(self: *Self) vk.Instance {
                 .pfnUserCallback = default_debug_logger, // TODO: Add callback
                 .pUserData = null,
             };
-            var maybe_debug_utils_messenger: vk.DebugUtilsMessengerEXT = undefined;
-            vk.vk_try(create_debug_fn(instance, &create_debug_info, null, &maybe_debug_utils_messenger));
-            // TODO: Deinit handle in a "global" state
+            var maybe_debug_utils_messenger_handle: vk.DebugUtilsMessengerEXT = undefined;
+            vk.vk_try(create_debug_fn(instance, &create_debug_info, null, &maybe_debug_utils_messenger_handle));
+            // TODO: Deinit handle in a "global" state, See validation error in log
         }
     }
     defer deinit(self);
@@ -97,4 +99,5 @@ pub fn build(self: *Self) vk.Instance {
 
 pub fn deinit(self: *Self) void {
     self.extensions.deinit(self.allocator);
+    self.validations.deinit(self.allocator);
 }

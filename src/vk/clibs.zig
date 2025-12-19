@@ -65,6 +65,7 @@ pub const vk = struct {
     pub const STRUCTURE_TYPE_DEBUG_UTILS_MESSENGER_CREATE_INFO_EXT = vulkan_c.VK_STRUCTURE_TYPE_DEBUG_UTILS_MESSENGER_CREATE_INFO_EXT;
     pub const EXT_DEBUG_UTILS = vulkan_c.VK_EXT_debug_utils;
     pub const EXT_DEBUG_UTILS_EXTENSION_NAME = vulkan_c.VK_EXT_DEBUG_UTILS_EXTENSION_NAME;
+    pub const VAL_LAYER_KHRONOS_VALIDATION = "VK_LAYER_KHRONOS_validation"; // Not in headers?
     pub const BoolFalse = vulkan_c.VK_FALSE;
     pub const BoolTrue = vulkan_c.VK_TRUE;
 
