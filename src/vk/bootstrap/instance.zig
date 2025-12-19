@@ -24,6 +24,21 @@ extensions: ExtensionList = undefined,
 enable_debug_extension: bool = false,
 allocator: std.mem.Allocator = undefined,
 
+fn default_debug_logger(
+    messageSeverity: vk.DebugMessageSeverityFlagBitsExt,
+    messageType: vk.DebugMessageTypeFlagsExt,
+    pCallbackData: ?*const vk.DebugMessengerCallbackDataExt,
+    userData: ?*anyopaque,
+) callconv(.c) vk.Bool32 {
+    _ = userData;
+    _ = messageType;
+    _ = messageSeverity;
+    if (pCallbackData) |cbData| {
+        std.debug.print("VULKAN: {s}", .{cbData.pMessage});
+    }
+    return vk.BoolFalse;
+}
+
 pub fn builder(alloc: std.mem.Allocator) Self {
     return Self{
         .allocator = alloc,
@@ -47,7 +62,7 @@ pub fn activateSDL3Window(self: *Self) *Self {
 }
 
 pub fn enableDebugExtension(self: *Self) *Self {
-    self.extensions.append(self.allocator, vk.EXT_DEBUG_UTILS) catch @panic("OOM!");
+    self.extensions.append(self.allocator, vk.EXT_DEBUG_UTILS_EXTENSION_NAME) catch @panic("OOM!");
     self.enable_debug_extension = true;
     return self;
 }
@@ -68,11 +83,12 @@ pub fn build(self: *Self) vk.Instance {
                 .sType = vk.STRUCTURE_TYPE_DEBUG_UTILS_MESSENGER_CREATE_INFO_EXT,
                 .messageSeverity = vk.ZD_DEBUG_MESSAGE_SEVERITY_DEBUG,
                 .messageType = vk.ZD_DEBUG_MESSAGE_TYPE,
-                .pfnUserCallback = null, // TODO: Add callback
+                .pfnUserCallback = default_debug_logger, // TODO: Add callback
                 .pUserData = null,
             };
             var maybe_debug_utils_messenger: vk.DebugUtilsMessengerEXT = undefined;
             vk.vk_try(create_debug_fn(instance, &create_debug_info, null, &maybe_debug_utils_messenger));
+            // TODO: Deinit handle in a "global" state
         }
     }
     defer deinit(self);

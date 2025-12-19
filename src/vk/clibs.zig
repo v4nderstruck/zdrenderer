@@ -43,8 +43,12 @@ pub const vk = struct {
     pub const ApplicationInfo = vulkan_c.VkApplicationInfo;
     pub const InstanceCreateInfo = vulkan_c.VkInstanceCreateInfo;
     pub const Instance = vulkan_c.VkInstance;
+    pub const Bool32 = vulkan_c.VkBool32;
     pub const DebugUtilsMessengerEXT = vulkan_c.VkDebugUtilsMessengerEXT;
     pub const DebugUtilsMessengerCreateInfoEXT = vulkan_c.VkDebugUtilsMessengerCreateInfoEXT;
+    pub const DebugMessageSeverityFlagBitsExt = vulkan_c.VkDebugUtilsMessageSeverityFlagBitsEXT;
+    pub const DebugMessageTypeFlagsExt = vulkan_c.VkDebugUtilsMessageTypeFlagsEXT;
+    pub const DebugMessengerCallbackDataExt = vulkan_c.VkDebugUtilsMessengerCallbackDataEXT;
     pub const PFN_CreateDebugUtilsMessagerExt = vulkan_c.PFN_vkCreateDebugUtilsMessengerEXT;
     pub const PFN_GetInstanceProcAddr = vulkan_c.PFN_vkGetInstanceProcAddr;
 
@@ -60,6 +64,9 @@ pub const vk = struct {
     pub const STRUCTURE_TYPE_INSTANCE_CREATE_INFO = vulkan_c.VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
     pub const STRUCTURE_TYPE_DEBUG_UTILS_MESSENGER_CREATE_INFO_EXT = vulkan_c.VK_STRUCTURE_TYPE_DEBUG_UTILS_MESSENGER_CREATE_INFO_EXT;
     pub const EXT_DEBUG_UTILS = vulkan_c.VK_EXT_debug_utils;
+    pub const EXT_DEBUG_UTILS_EXTENSION_NAME = vulkan_c.VK_EXT_DEBUG_UTILS_EXTENSION_NAME;
+    pub const BoolFalse = vulkan_c.VK_FALSE;
+    pub const BoolTrue = vulkan_c.VK_TRUE;
 
     // Derived Constants
     pub const ZD_DEBUG_MESSAGE_SEVERITY_INFO = vulkan_c.VK_DEBUG_UTILS_MESSAGE_SEVERITY_ERROR_BIT_EXT |
