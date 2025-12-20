@@ -85,7 +85,7 @@ pub fn build(self: *Self) vk.Instance {
                 .sType = vk.STRUCTURE_TYPE_DEBUG_UTILS_MESSENGER_CREATE_INFO_EXT,
                 .messageSeverity = vk.ZD_DEBUG_MESSAGE_SEVERITY_DEBUG,
                 .messageType = vk.ZD_DEBUG_MESSAGE_TYPE,
-                .pfnUserCallback = default_debug_logger, // TODO: Add callback
+                .pfnUserCallback = default_debug_logger,
                 .pUserData = null,
             };
             var maybe_debug_utils_messenger_handle: vk.DebugUtilsMessengerEXT = undefined;
