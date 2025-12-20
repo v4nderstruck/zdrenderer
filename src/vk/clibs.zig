@@ -49,6 +49,9 @@ pub const vk = struct {
     pub const DebugMessageSeverityFlagBitsExt = vulkan_c.VkDebugUtilsMessageSeverityFlagBitsEXT;
     pub const DebugMessageTypeFlagsExt = vulkan_c.VkDebugUtilsMessageTypeFlagsEXT;
     pub const DebugMessengerCallbackDataExt = vulkan_c.VkDebugUtilsMessengerCallbackDataEXT;
+    pub const PhysicalDevice = vulkan_c.VkPhysicalDevice;
+    pub const PhysicalDeviceProperties = vulkan_c.VkPhysicalDeviceProperties;
+
     pub const PFN_CreateDebugUtilsMessagerExt = vulkan_c.PFN_vkCreateDebugUtilsMessengerEXT;
     pub const PFN_GetInstanceProcAddr = vulkan_c.PFN_vkGetInstanceProcAddr;
 
@@ -57,6 +60,8 @@ pub const vk = struct {
     pub const CreateInstance = vulkan_c.vkCreateInstance;
     pub const GetInstanceProcAddr = vulkan_c.vkGetInstanceProcAddr;
     pub const MAKE_VERSION = vulkan_c.VK_MAKE_VERSION;
+    pub const EnumeratePhysicalDevices = vulkan_c.vkEnumeratePhysicalDevices;
+    pub const GetPhysicalDeviceProperties = vulkan_c.vkGetPhysicalDeviceProperties;
 
     // Constants
     pub const API_VERSION = vulkan_c.VK_API_VERSION_1_3;
@@ -68,6 +73,7 @@ pub const vk = struct {
     pub const VAL_LAYER_KHRONOS_VALIDATION = "VK_LAYER_KHRONOS_validation"; // Not in headers?
     pub const BoolFalse = vulkan_c.VK_FALSE;
     pub const BoolTrue = vulkan_c.VK_TRUE;
+    pub const NullHandle = vulkan_c.VK_NULL_HANDLE;
 
     // Derived Constants
     pub const ZD_DEBUG_MESSAGE_SEVERITY_INFO = vulkan_c.VK_DEBUG_UTILS_MESSAGE_SEVERITY_ERROR_BIT_EXT |
