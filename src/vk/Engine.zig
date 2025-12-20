@@ -10,7 +10,7 @@ const Self = @This();
 window: ?*sdl.Window = null,
 allocator: std.mem.Allocator = undefined,
 instance: vk.Instance = null,
-device: vk.PhysicalDevice = null,
+device: vk.PhysicalDevice = vk.NullHandle,
 
 fn init_instance(self: *Self) void {
     var builder = bootstrapInstance.builder(self.allocator);
