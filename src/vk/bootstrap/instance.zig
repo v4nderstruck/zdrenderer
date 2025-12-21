@@ -36,9 +36,9 @@ fn default_debug_logger(
     _ = messageType;
     _ = messageSeverity;
     if (pCallbackData) |cbData| {
-        std.debug.print("VULKAN: {s}", .{cbData.pMessage});
+        std.debug.print("\x1b[31m{s}\n", .{cbData.pMessage});
     }
-    return vk.BoolFalse;
+    return vk.BoolTrue;
 }
 
 pub fn builder(alloc: std.mem.Allocator) Self {
@@ -75,11 +75,11 @@ pub fn build(self: *Self) vk.Instance {
     self.instance_create_info.enabledExtensionCount = @intCast(self.extensions.items.len);
     self.instance_create_info.ppEnabledExtensionNames = if (self.extensions.items.len > 0) @ptrCast(self.extensions.items.ptr) else null;
     self.instance_create_info.enabledLayerCount = @intCast(self.validations.items.len);
-    self.instance_create_info.ppEnabledLayerNames = if (self.extensions.items.len > 0) @ptrCast(self.validations.items.ptr) else null;
+    self.instance_create_info.ppEnabledLayerNames = if (self.validations.items.len > 0) @ptrCast(self.validations.items.ptr) else null;
     var instance: vk.Instance = undefined;
     vk.vk_try(vk.CreateInstance(&self.instance_create_info, null, &instance));
 
-    if (self.extensions.items.len > 0) {
+    if (self.validations.items.len > 0) {
         const maybe_create_debug_fn = vk.getVulkanInstanceFnByName(vk.PFN_CreateDebugUtilsMessagerExt, instance, "vkCreateDebugUtilsMessengerEXT");
         if (maybe_create_debug_fn) |create_debug_fn| {
             const create_debug_info = vk.DebugUtilsMessengerCreateInfoEXT{
