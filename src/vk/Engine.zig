@@ -47,10 +47,12 @@ fn init_swapchain(self: *Self) void {
     var builder = bootstrapSwapChain.builder(
         self.allocator,
         self.window,
+        self.surface,
         self.device,
         self.vm_allocator,
     );
-    builder.build();
+    builder.selectSwapchain(vk.SurfaceFormats)
+        .build();
 }
 
 pub fn init(alloc: std.mem.Allocator) Self {

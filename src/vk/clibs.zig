@@ -55,8 +55,10 @@ pub const vk = struct {
     pub const DebugMessengerCallbackDataExt = cInclude.VkDebugUtilsMessengerCallbackDataEXT;
     pub const DeviceCreateInfo = cInclude.VkDeviceCreateInfo;
     pub const PhysicalDeviceFeatures = cInclude.VkPhysicalDeviceFeatures;
-    pub const PhysicalDevice = cInclude.VkPhysicalDevice;
     pub const PhysicalDeviceProperties = cInclude.VkPhysicalDeviceProperties;
+    pub const PhysicalDevice = cInclude.VkPhysicalDevice;
+    pub const SurfaceFormats = cInclude.VkSurfaceFormatKHR;
+    pub const PresentMode = cInclude.VkPresentModeKHR;
     pub const QueueFamilyProperties = cInclude.VkQueueFamilyProperties;
 
     pub const PFN_CreateDebugUtilsMessagerExt = cInclude.PFN_vkCreateDebugUtilsMessengerEXT;
@@ -73,6 +75,8 @@ pub const vk = struct {
     pub const GetPhysicalDeviceProperties = cInclude.vkGetPhysicalDeviceProperties;
     pub const GetPhysicalDeviceQueueFamiliyProperties = cInclude.vkGetPhysicalDeviceQueueFamilyProperties;
     pub const GetPhysicalDeviceSurfaceSupportKHR = cInclude.vkGetPhysicalDeviceSurfaceSupportKHR;
+    pub const GetPhysicalDeviceSurfaceFormats = cInclude.vkGetPhysicalDeviceSurfaceFormatsKHR;
+    pub const GetPhysicalDevicePresetModes = cInclude.vkGetPhysicalDeviceSurfacePresentModesKHR;
 
     // Constants
     pub const API_VERSION = cInclude.VK_API_VERSION_1_3;
@@ -83,6 +87,10 @@ pub const vk = struct {
     pub const STRUCTURE_TYPE_DEVICE_QUEUE_CREATE_INFO = cInclude.VK_STRUCTURE_TYPE_DEVICE_QUEUE_CREATE_INFO;
     pub const EXT_DEBUG_UTILS = cInclude.VK_EXT_debug_utils;
     pub const EXT_DEBUG_UTILS_EXTENSION_NAME = cInclude.VK_EXT_DEBUG_UTILS_EXTENSION_NAME;
+
+    pub const FORMAT_B8G8R8A8_SRGB = cInclude.VK_FORMAT_B8G8R8A8_SRGB;
+    pub const COLOR_SPACE_SRGB_NONLINEAR_KHR = cInclude.VK_COLOR_SPACE_SRGB_NONLINEAR_KHR;
+
     pub const VAL_LAYER_KHRONOS_VALIDATION = "VK_LAYER_KHRONOS_validation"; // Not in headers?
     pub const QUEUE_COMPUTE_BIT = cInclude.VK_QUEUE_COMPUTE_BIT;
     pub const QUEUE_GRAPHICS_BIT = cInclude.VK_QUEUE_GRAPHICS_BIT;
@@ -102,6 +110,9 @@ pub const vk = struct {
     pub const ZD_DEBUG_MESSAGE_TYPE = cInclude.VK_DEBUG_UTILS_MESSAGE_TYPE_GENERAL_BIT_EXT |
         cInclude.VK_DEBUG_UTILS_MESSAGE_TYPE_VALIDATION_BIT_EXT |
         cInclude.VK_DEBUG_UTILS_MESSAGE_TYPE_PERFORMANCE_BIT_EXT;
+
+    pub const ZD_SWAPCHAIN_FORMAT = FORMAT_B8G8R8A8_SRGB;
+    pub const ZD_SWAPCHAIN_COLOR_SPACE = COLOR_SPACE_SRGB_NONLINEAR_KHR;
 
     pub const SUCCESS = cInclude.VK_SUCCESS;
 
