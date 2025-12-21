@@ -1,5 +1,6 @@
-const vk = @import("../clibs.zig").vk;
-const sdl = @import("../clibs.zig").sdl;
+const clibs = @import("../clibs.zig");
+const sdl = clibs.sdl;
+const vk = clibs.vk;
 
 const std = @import("std");
 const Self = @This();

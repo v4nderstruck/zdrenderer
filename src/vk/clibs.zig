@@ -41,13 +41,18 @@ pub const vk = struct {
     // Structs/Types
     pub const ApplicationInfo = cInclude.VkApplicationInfo;
     pub const InstanceCreateInfo = cInclude.VkInstanceCreateInfo;
+    pub const DeviceQueueCreateInfo = cInclude.VkDeviceQueueCreateInfo;
     pub const Instance = cInclude.VkInstance;
+    pub const Device = cInclude.VkDevice;
+    pub const Queue = cInclude.VkQueue;
     pub const Bool32 = cInclude.VkBool32;
     pub const DebugUtilsMessengerEXT = cInclude.VkDebugUtilsMessengerEXT;
     pub const DebugUtilsMessengerCreateInfoEXT = cInclude.VkDebugUtilsMessengerCreateInfoEXT;
     pub const DebugMessageSeverityFlagBitsExt = cInclude.VkDebugUtilsMessageSeverityFlagBitsEXT;
     pub const DebugMessageTypeFlagsExt = cInclude.VkDebugUtilsMessageTypeFlagsEXT;
     pub const DebugMessengerCallbackDataExt = cInclude.VkDebugUtilsMessengerCallbackDataEXT;
+    pub const DeviceCreateInfo = cInclude.VkDeviceCreateInfo;
+    pub const PhysicalDeviceFeatures = cInclude.VkPhysicalDeviceFeatures;
     pub const PhysicalDevice = cInclude.VkPhysicalDevice;
     pub const PhysicalDeviceProperties = cInclude.VkPhysicalDeviceProperties;
     pub const QueueFamilyProperties = cInclude.VkQueueFamilyProperties;
@@ -58,20 +63,28 @@ pub const vk = struct {
     // Functions/Macros
     pub const DestroyInstance = cInclude.vkDestroyInstance;
     pub const CreateInstance = cInclude.vkCreateInstance;
+    pub const CreateDevice = cInclude.vkCreateDevice;
+    pub const GetDeviceQueue = cInclude.vkGetDeviceQueue;
     pub const GetInstanceProcAddr = cInclude.vkGetInstanceProcAddr;
     pub const MAKE_VERSION = cInclude.VK_MAKE_VERSION;
     pub const EnumeratePhysicalDevices = cInclude.vkEnumeratePhysicalDevices;
     pub const GetPhysicalDeviceProperties = cInclude.vkGetPhysicalDeviceProperties;
     pub const GetPhysicalDeviceQueueFamiliyProperties = cInclude.vkGetPhysicalDeviceQueueFamilyProperties;
+    pub const GetPhysicalDeviceSurfaceSupportKHR = cInclude.vkGetPhysicalDeviceSurfaceSupportKHR;
 
     // Constants
     pub const API_VERSION = cInclude.VK_API_VERSION_1_3;
     pub const STRUCTURE_TYPE_APPLICATION_INFO = cInclude.VK_STRUCTURE_TYPE_APPLICATION_INFO;
     pub const STRUCTURE_TYPE_INSTANCE_CREATE_INFO = cInclude.VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
     pub const STRUCTURE_TYPE_DEBUG_UTILS_MESSENGER_CREATE_INFO_EXT = cInclude.VK_STRUCTURE_TYPE_DEBUG_UTILS_MESSENGER_CREATE_INFO_EXT;
+    pub const STRUCTURE_TYPE_DEVICE_CREATE_INFO = cInclude.VK_STRUCTURE_TYPE_DEVICE_CREATE_INFO;
+    pub const STRUCTURE_TYPE_DEVICE_QUEUE_CREATE_INFO = cInclude.VK_STRUCTURE_TYPE_DEVICE_QUEUE_CREATE_INFO;
     pub const EXT_DEBUG_UTILS = cInclude.VK_EXT_debug_utils;
     pub const EXT_DEBUG_UTILS_EXTENSION_NAME = cInclude.VK_EXT_DEBUG_UTILS_EXTENSION_NAME;
     pub const VAL_LAYER_KHRONOS_VALIDATION = "VK_LAYER_KHRONOS_validation"; // Not in headers?
+    pub const QUEUE_COMPUTE_BIT = cInclude.VK_QUEUE_COMPUTE_BIT;
+    pub const QUEUE_GRAPHICS_BIT = cInclude.VK_QUEUE_GRAPHICS_BIT;
+    pub const QUEUE_TRANSFER_BIT = cInclude.VK_QUEUE_TRANSFER_BIT;
     pub const BoolFalse = cInclude.VK_FALSE;
     pub const BoolTrue = cInclude.VK_TRUE;
     pub const NullHandle = cInclude.VK_NULL_HANDLE;
