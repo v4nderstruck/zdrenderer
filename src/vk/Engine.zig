@@ -52,6 +52,8 @@ fn init_swapchain(self: *Self) void {
         self.vm_allocator,
     );
     builder.selectSwapchain(vk.SurfaceFormats)
+        .selectSwapchain(vk.PresentMode)
+        .selectExtent()
         .build();
 }
 

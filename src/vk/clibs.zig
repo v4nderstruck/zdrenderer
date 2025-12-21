@@ -47,6 +47,8 @@ pub const vk = struct {
     pub const Instance = cInclude.VkInstance;
     pub const Device = cInclude.VkDevice;
     pub const Queue = cInclude.VkQueue;
+    pub const Swapchain = cInclude.VkSwapchainKHR;
+
     pub const Bool32 = cInclude.VkBool32;
     pub const DebugUtilsMessengerEXT = cInclude.VkDebugUtilsMessengerEXT;
     pub const DebugUtilsMessengerCreateInfoEXT = cInclude.VkDebugUtilsMessengerCreateInfoEXT;
@@ -55,11 +57,15 @@ pub const vk = struct {
     pub const DebugMessengerCallbackDataExt = cInclude.VkDebugUtilsMessengerCallbackDataEXT;
     pub const DeviceCreateInfo = cInclude.VkDeviceCreateInfo;
     pub const PhysicalDeviceFeatures = cInclude.VkPhysicalDeviceFeatures;
+    pub const PhysicalDeviceShaderDrawParameterFeatures = cInclude.VkPhysicalDeviceShaderDrawParameterFeatures;
     pub const PhysicalDeviceProperties = cInclude.VkPhysicalDeviceProperties;
     pub const PhysicalDevice = cInclude.VkPhysicalDevice;
     pub const SurfaceFormats = cInclude.VkSurfaceFormatKHR;
+    pub const SurfaceCapabilities = cInclude.VkSurfaceCapabilitiesKHR;
     pub const PresentMode = cInclude.VkPresentModeKHR;
     pub const QueueFamilyProperties = cInclude.VkQueueFamilyProperties;
+    pub const Extent2D = cInclude.VkExtent2D;
+    pub const SwapchainCreateInfo = cInclude.VkSwapchainCreateInfoKHR;
 
     pub const PFN_CreateDebugUtilsMessagerExt = cInclude.PFN_vkCreateDebugUtilsMessengerEXT;
     pub const PFN_GetInstanceProcAddr = cInclude.PFN_vkGetInstanceProcAddr;
@@ -68,6 +74,7 @@ pub const vk = struct {
     pub const DestroyInstance = cInclude.vkDestroyInstance;
     pub const CreateInstance = cInclude.vkCreateInstance;
     pub const CreateDevice = cInclude.vkCreateDevice;
+    pub const CreateSwapchain = cInclude.vkCreateSwapchainKHR;
     pub const GetDeviceQueue = cInclude.vkGetDeviceQueue;
     pub const GetInstanceProcAddr = cInclude.vkGetInstanceProcAddr;
     pub const MAKE_VERSION = cInclude.VK_MAKE_VERSION;
@@ -76,20 +83,30 @@ pub const vk = struct {
     pub const GetPhysicalDeviceQueueFamiliyProperties = cInclude.vkGetPhysicalDeviceQueueFamilyProperties;
     pub const GetPhysicalDeviceSurfaceSupportKHR = cInclude.vkGetPhysicalDeviceSurfaceSupportKHR;
     pub const GetPhysicalDeviceSurfaceFormats = cInclude.vkGetPhysicalDeviceSurfaceFormatsKHR;
-    pub const GetPhysicalDevicePresetModes = cInclude.vkGetPhysicalDeviceSurfacePresentModesKHR;
+    pub const GetPhysicalDeviceSurfaceCapabilities = cInclude.vkGetPhysicalDeviceSurfaceCapabilitiesKHR;
+    pub const GetPhysicalDevicePresentModes = cInclude.vkGetPhysicalDeviceSurfacePresentModesKHR;
 
     // Constants
     pub const API_VERSION = cInclude.VK_API_VERSION_1_3;
+
     pub const STRUCTURE_TYPE_APPLICATION_INFO = cInclude.VK_STRUCTURE_TYPE_APPLICATION_INFO;
     pub const STRUCTURE_TYPE_INSTANCE_CREATE_INFO = cInclude.VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
     pub const STRUCTURE_TYPE_DEBUG_UTILS_MESSENGER_CREATE_INFO_EXT = cInclude.VK_STRUCTURE_TYPE_DEBUG_UTILS_MESSENGER_CREATE_INFO_EXT;
     pub const STRUCTURE_TYPE_DEVICE_CREATE_INFO = cInclude.VK_STRUCTURE_TYPE_DEVICE_CREATE_INFO;
     pub const STRUCTURE_TYPE_DEVICE_QUEUE_CREATE_INFO = cInclude.VK_STRUCTURE_TYPE_DEVICE_QUEUE_CREATE_INFO;
+    pub const STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_DRAW_PARAMETER_FEATURES = cInclude.VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_DRAW_PARAMETERS_FEATURES;
+    pub const STRUCTURE_TYPE_SWAPCHAIN_CREATE_INFO = cInclude.VK_STRUCTURE_TYPE_SWAPCHAIN_CREATE_INFO_KHR;
+
     pub const EXT_DEBUG_UTILS = cInclude.VK_EXT_debug_utils;
     pub const EXT_DEBUG_UTILS_EXTENSION_NAME = cInclude.VK_EXT_DEBUG_UTILS_EXTENSION_NAME;
 
     pub const FORMAT_B8G8R8A8_SRGB = cInclude.VK_FORMAT_B8G8R8A8_SRGB;
     pub const COLOR_SPACE_SRGB_NONLINEAR_KHR = cInclude.VK_COLOR_SPACE_SRGB_NONLINEAR_KHR;
+    pub const PRESENT_MODE_FIFO = cInclude.VK_PRESENT_MODE_FIFO_KHR;
+    pub const IMAGE_USAGE_COLOR_ATTACHMENT_BIT = cInclude.VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT;
+    pub const COMPOSITE_ALPHA_OPAQUE_BIT = cInclude.VK_COMPOSITE_ALPHA_OPAQUE_BIT_KHR;
+    pub const SHARING_MODE_CONCURRENT = cInclude.VK_SHARING_MODE_CONCURRENT;
+    pub const SHARING_MODE_EXCLUSIVE = cInclude.VK_SHARING_MODE_EXCLUSIVE;
 
     pub const VAL_LAYER_KHRONOS_VALIDATION = "VK_LAYER_KHRONOS_validation"; // Not in headers?
     pub const QUEUE_COMPUTE_BIT = cInclude.VK_QUEUE_COMPUTE_BIT;
@@ -113,6 +130,7 @@ pub const vk = struct {
 
     pub const ZD_SWAPCHAIN_FORMAT = FORMAT_B8G8R8A8_SRGB;
     pub const ZD_SWAPCHAIN_COLOR_SPACE = COLOR_SPACE_SRGB_NONLINEAR_KHR;
+    pub const ZD_PRESENT_MODE = PRESENT_MODE_FIFO;
 
     pub const SUCCESS = cInclude.VK_SUCCESS;
 

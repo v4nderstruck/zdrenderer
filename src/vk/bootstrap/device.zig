@@ -5,13 +5,17 @@ const vk = clibs.vk;
 const sdl = clibs.sdl;
 
 const Self = @This();
+pub const GraphicsQueue = struct {
+    index: u32 = undefined,
+    handle: vk.Queue = null,
+};
 pub const GraphicDeviceHandles = struct {
     physical: vk.PhysicalDevice = null,
     logical: vk.Device = null,
-    graphics_queue: vk.Queue = null,
-    compute_queue: vk.Queue = null,
-    present_queue: vk.Queue = null,
-    transfer_queue: vk.Queue = null,
+    graphics_queue: GraphicsQueue = .{},
+    compute_queue: GraphicsQueue = .{},
+    present_queue: GraphicsQueue = .{},
+    transfer_queue: GraphicsQueue = .{},
 };
 
 const QueueFamilies = struct {
@@ -150,6 +154,12 @@ pub fn selectLogicalDevice(self: *Self, withSwapChain: bool) *Self {
         "VK_KHR_swapchain",
     };
 
+    const shader_draw = vk.PhysicalDeviceShaderDrawParameterFeatures{
+        .sType = vk.STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_DRAW_PARAMETER_FEATURES,
+        .shaderDrawParameters = vk.BoolTrue,
+    };
+    _ = shader_draw;
+
     const logical_device_create_info = vk.DeviceCreateInfo{
         .sType = vk.STRUCTURE_TYPE_DEVICE_CREATE_INFO,
         .queueCreateInfoCount = @intCast(queue_create_info.items.len),
@@ -157,16 +167,21 @@ pub fn selectLogicalDevice(self: *Self, withSwapChain: bool) *Self {
         .enabledLayerCount = 0,
         .ppEnabledLayerNames = null,
         .enabledExtensionCount = if (withSwapChain) device_extensions.len else 0,
-        .ppEnabledExtensionNames = if (withSwapChain) device_extensions.ptr else 0,
+        .ppEnabledExtensionNames = if (withSwapChain) device_extensions.ptr else null,
         .pEnabledFeatures = &null_device_features,
-        .pNext = null, // TODO:
+        .pNext = null,
     };
 
     vk.vk_try(vk.CreateDevice(self.chosen_device_handler, &logical_device_create_info, null, &self.handles.logical));
-    vk.GetDeviceQueue(self.handles.logical, self.chosen_queue_families.graphics_family, 0, &self.handles.graphics_queue);
-    vk.GetDeviceQueue(self.handles.logical, self.chosen_queue_families.compute_family, 0, &self.handles.compute_queue);
-    vk.GetDeviceQueue(self.handles.logical, self.chosen_queue_families.present_family, 0, &self.handles.present_queue);
-    vk.GetDeviceQueue(self.handles.logical, self.chosen_queue_families.transfer_family, 0, &self.handles.transfer_queue);
+    vk.GetDeviceQueue(self.handles.logical, self.chosen_queue_families.graphics_family, 0, &self.handles.graphics_queue.handle);
+    vk.GetDeviceQueue(self.handles.logical, self.chosen_queue_families.compute_family, 0, &self.handles.compute_queue.handle);
+    vk.GetDeviceQueue(self.handles.logical, self.chosen_queue_families.present_family, 0, &self.handles.present_queue.handle);
+    vk.GetDeviceQueue(self.handles.logical, self.chosen_queue_families.transfer_family, 0, &self.handles.transfer_queue.handle);
+
+    self.handles.graphics_queue.index = self.chosen_queue_families.graphics_family;
+    self.handles.compute_queue.index = self.chosen_queue_families.compute_family;
+    self.handles.present_queue.index = self.chosen_queue_families.present_family;
+    self.handles.transfer_queue.index = self.chosen_queue_families.transfer_family;
 
     return self;
 }
