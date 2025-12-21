@@ -123,4 +123,12 @@ pub const vk = struct {
     }
 };
 
-pub const vma = struct {};
+pub const vma = struct {
+    // Structs/Types
+    pub const Allocator = cInclude.VmaAllocator;
+    pub const AllocatorCreateInfo = cInclude.VmaAllocatorCreateInfo;
+
+    // Functions/Macros
+    pub const CreateAllocator = cInclude.vmaCreateAllocator;
+
+};

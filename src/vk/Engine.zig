@@ -1,17 +1,19 @@
 const std = @import("std");
 const vk = @import("clibs.zig").vk;
 const sdl = @import("clibs.zig").sdl;
+const vma = @import("clibs.zig").vma;
 const bootstrapInstance = @import("bootstrap/instance.zig");
 const bootstrapWindow = @import("bootstrap/window.zig");
 const bootstrapDevice = @import("bootstrap/device.zig");
 
 const Self = @This();
 
+allocator: std.mem.Allocator = undefined,
 window: *sdl.Window = undefined,
 surface: sdl.VulkanSurface = null,
-allocator: std.mem.Allocator = undefined,
 instance: vk.Instance = null,
 device: bootstrapDevice.GraphicDeviceHandles = .{},
+vm_allocator: vma.Allocator = null,
 
 fn init_instance(self: *Self) void {
     var builder = bootstrapInstance.builder(self.allocator);
@@ -31,12 +33,22 @@ fn init_device(self: *Self) void {
         .build();
 }
 
+fn init_vma_allocator(self: *Self) void {
+    const create_info = vma.AllocatorCreateInfo{
+        .physicalDevice = self.device.physical,
+        .device = self.device.logical,
+        .instance = self.instance,
+    };
+    vk.vk_try(vma.CreateAllocator(&create_info, &self.vm_allocator));
+}
+
 pub fn init(alloc: std.mem.Allocator) Self {
     const window = bootstrapWindow.createWindow("zdrenderer", 800, 600);
     var engine = Self{ .window = window, .allocator = alloc };
     engine.init_instance();
     engine.surface = bootstrapWindow.createSurface(engine.instance, engine.window);
     engine.init_device();
+    engine.init_vma_allocator();
     return engine;
 }
 
