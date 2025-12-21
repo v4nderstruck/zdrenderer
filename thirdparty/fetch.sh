@@ -41,13 +41,14 @@ function lazy_cmake_build_install() {
     pushd $source
     cmake -S . -B build -DCMAKE_INSTALL_PREFIX=$install
     cmake --build build -j 8
-    cmake --install build
+    cmake --install build --prefix $install
     popd
 
 }
 
 # ======== Dependencies ========
 SDL3_SRC="https://github.com/libsdl-org/SDL/releases/download/release-3.2.28/SDL3-3.2.28.tar.gz"
+VMA_SRC="https://github.com/GPUOpen-LibrariesAndSDKs/VulkanMemoryAllocator/archive/refs/tags/v3.3.0.tar.gz"
 
 # ======== SDL3 ========
 echo "============ SDL 3 ============ "
@@ -57,3 +58,10 @@ lazy_curl $SDL3_SRC $TARBALL
 lazy_extract $TARBALL $SOURCE
 lazy_cmake_build_install $SOURCE $INSTALL_DIR
 
+# ======== VMA ========
+echo "============ VMA ============ "
+TARBALL="$TARBALL_DIR/vma.tar.gz"
+SOURCE="$SOURCE_DIR/vma"
+lazy_curl $VMA_SRC $TARBALL
+lazy_extract $TARBALL $SOURCE
+lazy_cmake_build_install $SOURCE $INSTALL_DIR
