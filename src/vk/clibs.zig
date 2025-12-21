@@ -17,6 +17,7 @@ pub const sdl = struct {
     pub const Init = cInclude.SDL_Init;
     pub const CreateWindow = cInclude.SDL_CreateWindow;
     pub const DestroyWindow = cInclude.SDL_DestroyWindow;
+    pub const GetWindowSize = cInclude.SDL_GetWindowSize;
 
     pub const GetError = cInclude.SDL_GetError;
     pub const VulkanGetInstanceExtension = cInclude.SDL_Vulkan_GetInstanceExtensions;

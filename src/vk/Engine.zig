@@ -5,6 +5,7 @@ const vma = @import("clibs.zig").vma;
 const bootstrapInstance = @import("bootstrap/instance.zig");
 const bootstrapWindow = @import("bootstrap/window.zig");
 const bootstrapDevice = @import("bootstrap/device.zig");
+const bootstrapSwapChain = @import("bootstrap/swapchain.zig");
 
 const Self = @This();
 
@@ -42,6 +43,16 @@ fn init_vma_allocator(self: *Self) void {
     vk.vk_try(vma.CreateAllocator(&create_info, &self.vm_allocator));
 }
 
+fn init_swapchain(self: *Self) void {
+    var builder = bootstrapSwapChain.builder(
+        self.allocator,
+        self.window,
+        self.device,
+        self.vm_allocator,
+    );
+    builder.build();
+}
+
 pub fn init(alloc: std.mem.Allocator) Self {
     const window = bootstrapWindow.createWindow("zdrenderer", 800, 600);
     var engine = Self{ .window = window, .allocator = alloc };
@@ -49,6 +60,7 @@ pub fn init(alloc: std.mem.Allocator) Self {
     engine.surface = bootstrapWindow.createSurface(engine.instance, engine.window);
     engine.init_device();
     engine.init_vma_allocator();
+    engine.init_swapchain();
     return engine;
 }
 
