@@ -27,7 +27,7 @@ fn init_device(self: *Self) void {
     self.device = builder
         .debug_print_physical_devices()
         .selectByIndex(0)
-        .selectLogicalDevice()
+        .selectLogicalDevice(true) // with swap chain
         .build();
 }
 

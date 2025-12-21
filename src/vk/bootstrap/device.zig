@@ -84,7 +84,7 @@ chosen_device_handler: vk.PhysicalDevice = null, // TODO: use the handle thing
 handles: GraphicDeviceHandles = .{},
 
 /// Selects a Queue on device by first occurence and constructs the logical device
-pub fn selectLogicalDevice(self: *Self) *Self {
+pub fn selectLogicalDevice(self: *Self, withSwapChain: bool) *Self {
     if (self.chosen_device_handler == null) {
         @panic("Tried loading queue families without selecting physical device!");
     }
@@ -156,8 +156,8 @@ pub fn selectLogicalDevice(self: *Self) *Self {
         .pQueueCreateInfos = @ptrCast(queue_create_info.items.ptr),
         .enabledLayerCount = 0,
         .ppEnabledLayerNames = null,
-        .enabledExtensionCount = device_extensions.len,
-        .ppEnabledExtensionNames = device_extensions.ptr,
+        .enabledExtensionCount = if (withSwapChain) device_extensions.len else 0,
+        .ppEnabledExtensionNames = if (withSwapChain) device_extensions.ptr else 0,
         .pEnabledFeatures = &null_device_features,
         .pNext = null, // TODO:
     };
