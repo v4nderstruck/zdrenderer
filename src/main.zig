@@ -9,4 +9,5 @@ pub fn main() !void {
 
     var engine = VKEngine.init(alloc.allocator());
     defer engine.cleanup();
+    std.debug.print("Ok!\n", .{});
 }
