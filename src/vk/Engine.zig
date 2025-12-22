@@ -9,6 +9,16 @@ const bootstrapSwapChain = @import("bootstrap/swapchain.zig");
 
 const Self = @This();
 
+const RenderFrameHandle = struct {
+    command_pool: vk.CommandPool = null,
+    command_buffer: vk.CommandBuffer = null,
+};
+
+const RenderDataHandle = struct {
+    command_pool: vk.CommandPool = null,
+    command_buffer: vk.CommandBuffer = null,
+};
+
 allocator: std.mem.Allocator = undefined,
 window: *sdl.Window = undefined,
 surface: sdl.VulkanSurface = null,
@@ -16,6 +26,8 @@ instance: vk.Instance = null,
 device: bootstrapDevice.GraphicDeviceHandles = .{},
 swapchain: bootstrapSwapChain.GraphicSwapchainHandles = .{},
 vm_allocator: vma.Allocator = null,
+render_frames: [2]RenderFrameHandle = .{RenderFrameHandle{}} ** 2,
+render_data: RenderDataHandle = .{},
 
 fn init_instance(self: *Self) void {
     var builder = bootstrapInstance.builder(self.allocator);
@@ -56,6 +68,44 @@ fn init_swapchain(self: *Self) void {
         .selectSwapchain(vk.PresentMode)
         .selectExtent()
         .build();
+    // TODO: A Swapchain Image and view with depth buffer for 3d!
+}
+
+fn init_command_buffer(self: *Self) void {
+    for (&self.render_frames) |*render_frame| {
+        const cp_create_info = vk.CommandPoolCreateInfo{
+            .sType = vk.STRUCTURE_TYPE_COMMAND_POOL_CREATE_INFO,
+            .queueFamilyIndex = self.device.graphics_queue.index,
+            .flags = vk.COMMAND_POOL_CREATE_RESET_COMMAND_BUFFER_BIT,
+        };
+
+        vk.vk_try(vk.CreateCommandPool(self.device.logical, &cp_create_info, null, &render_frame.command_pool));
+
+        const cb_alloc_info = vk.CommandBufferAllocateInfo{
+            .sType = vk.STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO,
+            .commandBufferCount = 1,
+            .commandPool = render_frame.command_pool,
+            .level = vk.COMMAND_BUFFER_LEVEL_PRIMARY,
+        };
+        vk.vk_try(vk.AllocateCommandBuffers(self.device.logical, &cb_alloc_info, &render_frame.command_buffer));
+    }
+
+    const cp_create_info = vk.CommandPoolCreateInfo{
+        .sType = vk.STRUCTURE_TYPE_COMMAND_POOL_CREATE_INFO,
+        .queueFamilyIndex = self.device.graphics_queue.index,
+        .flags = 0, // no special use, we use this command pool to prepare render data
+    };
+
+    vk.vk_try(vk.CreateCommandPool(self.device.logical, &cp_create_info, null, &self.render_data.command_pool));
+
+    const cb_alloc_info = vk.CommandBufferAllocateInfo{
+        .sType = vk.STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO,
+        .commandBufferCount = 1,
+        .commandPool = self.render_data.command_pool,
+        .level = vk.COMMAND_BUFFER_LEVEL_PRIMARY,
+    };
+
+    vk.vk_try(vk.AllocateCommandBuffers(self.device.logical, &cb_alloc_info, &self.render_data.command_buffer));
 }
 
 pub fn init(alloc: std.mem.Allocator) Self {
@@ -66,6 +116,7 @@ pub fn init(alloc: std.mem.Allocator) Self {
     engine.init_device();
     engine.init_vma_allocator();
     engine.init_swapchain();
+    engine.init_command_buffer();
     return engine;
 }
 

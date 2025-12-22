@@ -51,6 +51,8 @@ pub const vk = struct {
     pub const Swapchain = cInclude.VkSwapchainKHR;
     pub const Image = cInclude.VkImage;
     pub const ImageView = cInclude.VkImageView;
+    pub const CommandPool = cInclude.VkCommandPool;
+    pub const CommandBuffer = cInclude.VkCommandBuffer;
 
     pub const Bool32 = cInclude.VkBool32;
     pub const DebugUtilsMessengerEXT = cInclude.VkDebugUtilsMessengerEXT;
@@ -69,6 +71,8 @@ pub const vk = struct {
     pub const QueueFamilyProperties = cInclude.VkQueueFamilyProperties;
     pub const Extent2D = cInclude.VkExtent2D;
     pub const SwapchainCreateInfo = cInclude.VkSwapchainCreateInfoKHR;
+    pub const CommandPoolCreateInfo = cInclude.VkCommandPoolCreateInfo;
+    pub const CommandBufferAllocateInfo = cInclude.VkCommandBufferAllocateInfo;
 
     pub const PFN_CreateDebugUtilsMessagerExt = cInclude.PFN_vkCreateDebugUtilsMessengerEXT;
     pub const PFN_GetInstanceProcAddr = cInclude.PFN_vkGetInstanceProcAddr;
@@ -79,6 +83,8 @@ pub const vk = struct {
     pub const CreateDevice = cInclude.vkCreateDevice;
     pub const CreateSwapchain = cInclude.vkCreateSwapchainKHR;
     pub const CreateImageView = cInclude.vkCreateImageView;
+    pub const AllocateCommandBuffers = cInclude.vkAllocateCommandBuffers;
+    pub const CreateCommandPool = cInclude.vkCreateCommandPool;
     pub const GetDeviceQueue = cInclude.vkGetDeviceQueue;
     pub const GetInstanceProcAddr = cInclude.vkGetInstanceProcAddr;
     pub const MAKE_VERSION = cInclude.VK_MAKE_VERSION;
@@ -102,6 +108,8 @@ pub const vk = struct {
     pub const STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_DRAW_PARAMETER_FEATURES = cInclude.VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_DRAW_PARAMETERS_FEATURES;
     pub const STRUCTURE_TYPE_SWAPCHAIN_CREATE_INFO = cInclude.VK_STRUCTURE_TYPE_SWAPCHAIN_CREATE_INFO_KHR;
     pub const STRUCTURE_TYPE_IMAGE_VIEW_CREATE_INFO = cInclude.VK_STRUCTURE_TYPE_IMAGE_VIEW_CREATE_INFO;
+    pub const STRUCTURE_TYPE_COMMAND_POOL_CREATE_INFO = cInclude.VK_STRUCTURE_TYPE_COMMAND_POOL_CREATE_INFO;
+    pub const STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO = cInclude.VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO;
 
     pub const EXT_DEBUG_UTILS = cInclude.VK_EXT_debug_utils;
     pub const EXT_DEBUG_UTILS_EXTENSION_NAME = cInclude.VK_EXT_DEBUG_UTILS_EXTENSION_NAME;
@@ -116,6 +124,9 @@ pub const vk = struct {
     pub const IMAGE_VIEW_TYPE_2D = cInclude.VK_IMAGE_VIEW_TYPE_2D;
     pub const COMPONENT_SWIZZLE_IDENTITY = cInclude.VK_COMPONENT_SWIZZLE_IDENTITY;
     pub const IMAGE_ASPECT_COLOR_BIT = cInclude.VK_IMAGE_ASPECT_COLOR_BIT;
+
+    pub const COMMAND_POOL_CREATE_RESET_COMMAND_BUFFER_BIT = cInclude.VK_COMMAND_POOL_CREATE_RESET_COMMAND_BUFFER_BIT;
+    pub const COMMAND_BUFFER_LEVEL_PRIMARY = cInclude.VK_COMMAND_BUFFER_LEVEL_PRIMARY;
 
     pub const VAL_LAYER_KHRONOS_VALIDATION = "VK_LAYER_KHRONOS_validation"; // Not in headers?
     pub const QUEUE_COMPUTE_BIT = cInclude.VK_QUEUE_COMPUTE_BIT;
@@ -169,5 +180,4 @@ pub const vma = struct {
 
     // Functions/Macros
     pub const CreateAllocator = cInclude.vmaCreateAllocator;
-
 };
