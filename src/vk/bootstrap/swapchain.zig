@@ -7,6 +7,12 @@ const sdl = clibs.sdl;
 const device = @import("device.zig");
 const Self = @This();
 
+pub const GraphicSwapchainHandles = struct {
+    swapchain: vk.Swapchain = null,
+    images: []vk.Image = &.{},
+    image_views: []vk.ImageView = &.{},
+};
+
 allocator: std.mem.Allocator = undefined,
 device_handles: device.GraphicDeviceHandles = .{},
 window: ?*sdl.Window = null,
@@ -15,6 +21,52 @@ vma_allocator: vma.Allocator = null,
 window_width: u32 = undefined,
 window_height: u32 = undefined,
 swapchain_create_info: vk.SwapchainCreateInfo = .{},
+
+fn create_image_views(self: *Self, swapchain: vk.Swapchain) GraphicSwapchainHandles {
+    var count: u32 = 0;
+    vk.vk_try(vk.GetSwapchainImages(self.device_handles.logical, swapchain, &count, null));
+    if (count == 0) {
+        @panic("Could not get any Swapnchain images");
+    }
+    const images = self.allocator.alloc(vk.Image, count) catch @panic("OOM");
+    vk.vk_try(vk.GetSwapchainImages(self.device_handles.logical, swapchain, &count, images.ptr));
+
+    const image_views = self.allocator.alloc(vk.ImageView, count) catch @panic("OOM");
+    for (images, image_views) |image, *view| {
+        const create_info = vk.ImageViewCreateInfo{
+            .sType = vk.STRUCTURE_TYPE_IMAGE_VIEW_CREATE_INFO,
+            .image = image,
+            .viewType = vk.IMAGE_VIEW_TYPE_2D,
+            .format = vk.ZD_SWAPCHAIN_FORMAT,
+            .components = .{
+                .r = vk.COMPONENT_SWIZZLE_IDENTITY,
+                .g = vk.COMPONENT_SWIZZLE_IDENTITY,
+                .b = vk.COMPONENT_SWIZZLE_IDENTITY,
+                .a = vk.COMPONENT_SWIZZLE_IDENTITY,
+            },
+            .subresourceRange = .{
+                .aspectMask = vk.IMAGE_ASPECT_COLOR_BIT,
+                .baseMipLevel = 0,
+                .levelCount = 1,
+                .baseArrayLayer = 0,
+                .layerCount = 1,
+            },
+        };
+        var image_view: vk.ImageView = null;
+        vk.vk_try(vk.CreateImageView(self.device_handles.logical, &create_info, null, &image_view));
+        if (image_view != null) {
+            view.* = image_view;
+        } else {
+            @panic("Could not get view of swapchain image");
+        }
+    }
+
+    return .{
+        .swapchain = swapchain,
+        .image_views = image_views,
+        .images = images,
+    };
+}
 
 pub fn selectSwapchain(self: *Self, comptime T: type) *Self {
     var count: u32 = 0;
@@ -127,7 +179,7 @@ pub fn builder(
     return self;
 }
 
-pub fn build(self: *Self) void {
+pub fn build(self: *Self) GraphicSwapchainHandles {
     self.swapchain_create_info.sType = vk.STRUCTURE_TYPE_SWAPCHAIN_CREATE_INFO;
     self.swapchain_create_info.surface = self.surface;
     self.swapchain_create_info.compositeAlpha = vk.COMPOSITE_ALPHA_OPAQUE_BIT;
@@ -144,4 +196,8 @@ pub fn build(self: *Self) void {
     }
     var swapchain: vk.Swapchain = null;
     vk.vk_try(vk.CreateSwapchain(self.device_handles.logical, &self.swapchain_create_info, null, &swapchain));
+    // TODO: Destroy broken swapchain?
+
+    const result = self.create_image_views(swapchain);
+    return result;
 }

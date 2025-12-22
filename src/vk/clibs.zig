@@ -44,10 +44,13 @@ pub const vk = struct {
     pub const ApplicationInfo = cInclude.VkApplicationInfo;
     pub const InstanceCreateInfo = cInclude.VkInstanceCreateInfo;
     pub const DeviceQueueCreateInfo = cInclude.VkDeviceQueueCreateInfo;
+    pub const ImageViewCreateInfo = cInclude.VkImageViewCreateInfo;
     pub const Instance = cInclude.VkInstance;
     pub const Device = cInclude.VkDevice;
     pub const Queue = cInclude.VkQueue;
     pub const Swapchain = cInclude.VkSwapchainKHR;
+    pub const Image = cInclude.VkImage;
+    pub const ImageView = cInclude.VkImageView;
 
     pub const Bool32 = cInclude.VkBool32;
     pub const DebugUtilsMessengerEXT = cInclude.VkDebugUtilsMessengerEXT;
@@ -75,6 +78,7 @@ pub const vk = struct {
     pub const CreateInstance = cInclude.vkCreateInstance;
     pub const CreateDevice = cInclude.vkCreateDevice;
     pub const CreateSwapchain = cInclude.vkCreateSwapchainKHR;
+    pub const CreateImageView = cInclude.vkCreateImageView;
     pub const GetDeviceQueue = cInclude.vkGetDeviceQueue;
     pub const GetInstanceProcAddr = cInclude.vkGetInstanceProcAddr;
     pub const MAKE_VERSION = cInclude.VK_MAKE_VERSION;
@@ -85,6 +89,7 @@ pub const vk = struct {
     pub const GetPhysicalDeviceSurfaceFormats = cInclude.vkGetPhysicalDeviceSurfaceFormatsKHR;
     pub const GetPhysicalDeviceSurfaceCapabilities = cInclude.vkGetPhysicalDeviceSurfaceCapabilitiesKHR;
     pub const GetPhysicalDevicePresentModes = cInclude.vkGetPhysicalDeviceSurfacePresentModesKHR;
+    pub const GetSwapchainImages = cInclude.vkGetSwapchainImagesKHR;
 
     // Constants
     pub const API_VERSION = cInclude.VK_API_VERSION_1_3;
@@ -96,6 +101,7 @@ pub const vk = struct {
     pub const STRUCTURE_TYPE_DEVICE_QUEUE_CREATE_INFO = cInclude.VK_STRUCTURE_TYPE_DEVICE_QUEUE_CREATE_INFO;
     pub const STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_DRAW_PARAMETER_FEATURES = cInclude.VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_DRAW_PARAMETERS_FEATURES;
     pub const STRUCTURE_TYPE_SWAPCHAIN_CREATE_INFO = cInclude.VK_STRUCTURE_TYPE_SWAPCHAIN_CREATE_INFO_KHR;
+    pub const STRUCTURE_TYPE_IMAGE_VIEW_CREATE_INFO = cInclude.VK_STRUCTURE_TYPE_IMAGE_VIEW_CREATE_INFO;
 
     pub const EXT_DEBUG_UTILS = cInclude.VK_EXT_debug_utils;
     pub const EXT_DEBUG_UTILS_EXTENSION_NAME = cInclude.VK_EXT_DEBUG_UTILS_EXTENSION_NAME;
@@ -107,6 +113,9 @@ pub const vk = struct {
     pub const COMPOSITE_ALPHA_OPAQUE_BIT = cInclude.VK_COMPOSITE_ALPHA_OPAQUE_BIT_KHR;
     pub const SHARING_MODE_CONCURRENT = cInclude.VK_SHARING_MODE_CONCURRENT;
     pub const SHARING_MODE_EXCLUSIVE = cInclude.VK_SHARING_MODE_EXCLUSIVE;
+    pub const IMAGE_VIEW_TYPE_2D = cInclude.VK_IMAGE_VIEW_TYPE_2D;
+    pub const COMPONENT_SWIZZLE_IDENTITY = cInclude.VK_COMPONENT_SWIZZLE_IDENTITY;
+    pub const IMAGE_ASPECT_COLOR_BIT = cInclude.VK_IMAGE_ASPECT_COLOR_BIT;
 
     pub const VAL_LAYER_KHRONOS_VALIDATION = "VK_LAYER_KHRONOS_validation"; // Not in headers?
     pub const QUEUE_COMPUTE_BIT = cInclude.VK_QUEUE_COMPUTE_BIT;

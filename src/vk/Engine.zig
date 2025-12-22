@@ -14,6 +14,7 @@ window: *sdl.Window = undefined,
 surface: sdl.VulkanSurface = null,
 instance: vk.Instance = null,
 device: bootstrapDevice.GraphicDeviceHandles = .{},
+swapchain: bootstrapSwapChain.GraphicSwapchainHandles = .{},
 vm_allocator: vma.Allocator = null,
 
 fn init_instance(self: *Self) void {
@@ -51,7 +52,7 @@ fn init_swapchain(self: *Self) void {
         self.device,
         self.vm_allocator,
     );
-    builder.selectSwapchain(vk.SurfaceFormats)
+    self.swapchain = builder.selectSwapchain(vk.SurfaceFormats)
         .selectSwapchain(vk.PresentMode)
         .selectExtent()
         .build();
@@ -69,6 +70,8 @@ pub fn init(alloc: std.mem.Allocator) Self {
 }
 
 pub fn cleanup(self: *Self) void {
+    self.allocator.free(self.swapchain.images);
+    self.allocator.free(self.swapchain.image_views);
     vk.DestroyInstance(self.instance, null);
     sdl.DestroyWindow(self.window);
 }
